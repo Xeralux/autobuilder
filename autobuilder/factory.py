@@ -195,7 +195,8 @@ class DistroBuild(util.BuildFactory):
         self.addStep(steps.ShellCommand(command=['update-downloads',
                                                  '--mode=clean', '-v',
                                                  util.Property('dl_mirror')],
-                                        doStepIf=lambda step: step.build.getProperty('dl_mirror') is not None and step.build.getProperty('clean_downloads') == 'yes',
+                                        doStepIf=lambda step: step.build.getProperty('dl_mirror') is not None and
+                                                        step.build.getProperty('clean_downloads') == 'yes',
                                         hideStepIf=lambda results, step: results == bbres.SKIPPED,
                                         name='clean_dl_mirror',
                                         timeout=None,
@@ -241,11 +242,6 @@ class DistroImage(BuildFactory):
                                                 name='%s_%s' % (imagedict[tgt], tgt),
                                                 description=['Building', imagedict[tgt], '(' + tgt + ')'],
                                                 descriptionDone=['Built', imagedict[tgt], '(' + tgt + ')']))
-                self.addStep(steps.ShellCommand(command=['move-images'], env=tgtenv,
-                                                workdir=util.Property('BUILDDIR'), timeout=None,
-                                                name='MoveImages-%s' % tgt,
-                                                description=['Moving', 'images', 'for', tgt],
-                                                descriptionDone=['Moved', 'images', 'for', tgt]))
 
         # Build the SDK(s)
 
