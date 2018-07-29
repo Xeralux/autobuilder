@@ -7,7 +7,8 @@ from twisted.python import log
 from buildbot.plugins import changes, schedulers, util, worker
 from buildbot.www.hooks.github import GitHubEventHandler
 from buildbot.config import BuilderConfig
-from autobuilder import factory, settings, MyEC2LatentWorker
+from autobuilder import factory, settings
+from autobuilder.ec2 import MyEC2LatentWorker
 
 DEFAULT_BLDTYPES = ['ci', 'no-sstate', 'snapshot', 'release']
 RNG = SystemRandom()
@@ -272,8 +273,8 @@ class AutobuilderConfig(object):
         self.distrodict = {d.name: d for d in self.distros}
         for d in self.distros:
             d.set_host_oses(self.ostypes)
-            self.builder_names = [self.name + imgset.name + otype for imgset in self.targets for otype in
-                                  self.host_oses]
+            d.builder_names = [d.name + '-' + imgset.name + '-' + otype for imgset in d.targets for otype in
+                                  d.host_oses]
         all_builder_names = []
         for d in self.distros:
             all_builder_names += d.builder_names
