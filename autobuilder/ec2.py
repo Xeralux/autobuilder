@@ -1,4 +1,5 @@
 import re
+import os
 from buildbot.plugins import worker
 from buildbot.worker import AbstractLatentWorker
 import boto3
