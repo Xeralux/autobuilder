@@ -2,6 +2,7 @@
 Autobuilder configuration class.
 """
 import os
+import time
 from random import SystemRandom
 from twisted.python import log
 from buildbot.plugins import changes, schedulers, util, worker
