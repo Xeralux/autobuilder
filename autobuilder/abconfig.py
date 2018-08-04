@@ -9,6 +9,7 @@ from buildbot.www.hooks.github import GitHubEventHandler
 from buildbot.config import BuilderConfig
 from autobuilder import factory, settings
 from autobuilder.ec2 import MyEC2LatentWorker
+from autobuilder import utils
 
 DEFAULT_BLDTYPES = ['ci', 'no-sstate', 'snapshot', 'release']
 RNG = SystemRandom()
@@ -364,12 +365,16 @@ class AutobuilderConfig(object):
                      'artifacts': ' '.join(d.artifacts),
                      'autobuilder': self.name,
                      'distro': d.name,
+                     'datestamp': factory.build_datestamp,
                      'buildnum_template': d.buildnum_template,
                      'release_buildname_variable': d.release_buildname_variable}
             repo = self.repos[d.reponame]
             b += [BuilderConfig(name=d.name + '-' + imgset.name + '-' + otype,
                                 workernames=self.worker_names[otype],
-                                properties=props.copy(),
+                                properties=utils.dict_merge(props,
+                                                            {'datestamp': factory.build_datestamp,
+                                                             'primary_hostos': otype == d.host_oses[0],
+                                                             'save_artifacts': otype == d.host_oses[0]}),
                                 factory=factory.DistroImage(repourl=repo.uri,
                                                             submodules=repo.submodules,
                                                             branch=d.branch,
