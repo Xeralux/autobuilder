@@ -372,7 +372,7 @@ class AutobuilderConfig(object):
             b += [BuilderConfig(name=d.name + '-' + imgset.name + '-' + otype,
                                 workernames=self.worker_names[otype],
                                 properties=utils.dict_merge(props,
-                                                            {'datestamp': factory.build_datestamp,
+                                                            {'datestamp': time.strftime("%Y%m%d"),
                                                              'primary_hostos': otype == d.host_oses[0],
                                                              'save_artifacts': otype == d.host_oses[0]}),
                                 factory=factory.DistroImage(repourl=repo.uri,
