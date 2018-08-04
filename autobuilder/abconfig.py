@@ -276,7 +276,7 @@ class AutobuilderConfig(object):
         for d in self.distros:
             d.set_host_oses(self.ostypes)
             d.builder_names = [d.name + '-' + imgset.name + '-' + otype for imgset in d.targets for otype in
-                                  d.host_oses]
+                               d.host_oses]
         all_builder_names = []
         for d in self.distros:
             all_builder_names += d.builder_names
@@ -319,26 +319,34 @@ class AutobuilderConfig(object):
                 md_filter = util.ChangeFilter(project=self.repos[d.reponame].project,
                                               branch=d.branch, codebase=d.reponame,
                                               category='push')
+                props = {'buildtype': d.push_type,
+                         'datestamp': util.Interpolate('%(kw:now)s',
+                                                       now=factory.build_datestamp)}
                 s.append(schedulers.SingleBranchScheduler(name=d.name,
                                                           change_filter=md_filter,
                                                           treeStableTimer=d.repotimer,
-                                                          properties={'buildtype': d.push_type},
+                                                          properties=props,
                                                           codebases=d.codebases(self.repos),
                                                           createAbsoluteSourceStamps=True,
                                                           builderNames=d.builder_names))
             # noinspection PyTypeChecker
-            forceprops = util.ChoiceStringParameter(name='buildtype',
-                                                    label='Build type',
-                                                    choices=[bt.name for bt in d.buildtypes],
-                                                    default=d.default_buildtype)
+            forceprops = [util.ChoiceStringParameter(name='buildtype',
+                                                     label='Build type',
+                                                     choices=[bt.name for bt in d.buildtypes],
+                                                     default=d.default_buildtype),
+                          util.FixedParameter(name='datestamp',
+                                              default=util.Interpolate('%(kw:now)s',
+                                                                       now=factory.build_datestamp))]
             s.append(schedulers.ForceScheduler(name=d.name + '-force',
                                                codebases=d.codebaseparamlist(self.repos),
-                                               properties=[forceprops],
+                                               properties=forceprops,
                                                builderNames=d.builder_names))
             if d.weekly_type is not None:
                 slot = settings.get_weekly_slot()
                 s.append(schedulers.Nightly(name=d.name + '-' + 'weekly',
-                                            properties={'buildtype': d.weekly_type},
+                                            properties={'buildtype': d.weekly_type,
+                                                        'datestamp': util.Interpolate('%(kw:now)s',
+                                                                                      now=factory.build_datestamp)},
                                             codebases=d.codebases(self.repos),
                                             createAbsoluteSourceStamps=True,
                                             builderNames=d.builder_names,
@@ -373,8 +381,7 @@ class AutobuilderConfig(object):
             b += [BuilderConfig(name=d.name + '-' + imgset.name + '-' + otype,
                                 workernames=self.worker_names[otype],
                                 properties=utils.dict_merge(props,
-                                                            {'datestamp': time.strftime("%Y%m%d"),
-                                                             'primary_hostos': otype == d.host_oses[0],
+                                                            {'primary_hostos': otype == d.host_oses[0],
                                                              'save_artifacts': otype == d.host_oses[0]}),
                                 factory=factory.DistroImage(repourl=repo.uri,
                                                             submodules=repo.submodules,
