@@ -334,7 +334,7 @@ class AutobuilderConfig(object):
                                                      choices=[bt.name for bt in d.buildtypes],
                                                      default=d.default_buildtype),
                           util.FixedParameter(name='datestamp',
-                                              default=str(time.strftime("%Y%m%d")))
+                                              default=str(time.strftime("%Y%m%d")))]
             s.append(schedulers.ForceScheduler(name=d.name + '-force',
                                                codebases=d.codebaseparamlist(self.repos),
                                                properties=forceprops,
