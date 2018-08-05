@@ -7,8 +7,8 @@ from twisted.internet import defer
 def getChangesForSourceStamps(master, sslist):
     changes = []
     for ss in sslist:
-        changesd = master.data.get(("sourcestamps", ss['id'], "changes"))
-        sourcestampd = master.data.get("sourcestamps", ss['id'])
+        changesd = master.data.get(("sourcestamps", ss['ssid'], "changes"))
+        sourcestampd = master.data.get("sourcestamps", ss['ssid'])
         changes, sourcestamp = yield defer.gatherResults([changesd, sourcestampd])
         for c in changesd:
             change = {'author': c['author'],
