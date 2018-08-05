@@ -3,8 +3,6 @@ from twisted.internet import defer
 from twisted.python import log
 
 
-# noinspection PyPep8Naming
-@defer.inlineCallbacks
 def getChangesForSourceStamps(master, sslist):
     log.msg("getChangesForSourceStamps: sslist=%s" % sslist)
     changelist = []
@@ -19,10 +17,10 @@ def getChangesForSourceStamps(master, sslist):
             change = {'author': c['author'],
                       'comments': c['comments'],
                       'revlink': c['revlink'],
-                      'revision': ss['revision']
+                      'revision': c['revision']
                       }
             changelist.append(change)
-    defer.returnValue(changelist)
+    return changelist
 
 
 class AutobuilderMessageFormatter(MessageFormatter):
