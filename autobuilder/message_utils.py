@@ -8,18 +8,9 @@ def getChangesForSourceStamps(master, sslist):
     changelist = []
     for ss in sslist:
         log.msg('SOURCESTAMP: %s' % ss)
-        changesd = master.data.get(("sourcestamps", ss['ssid'], "changes"))
-        sourcestampd = master.data.get(("sourcestamps", ss['ssid']))
-        changes, sourcestamp = yield defer.gatherResults([changesd, sourcestampd])
-        log.msg("For ssid %s, changes=%s, sourcestamp=%s" % (ss['ssid'], changes, sourcestamp))
-        for c in changes:
-            log.msg('CHANGE: %s' % c)
-            change = {'author': c['author'],
-                      'comments': c['comments'],
-                      'revlink': c['revlink'],
-                      'revision': c['revision']
-                      }
-            changelist.append(change)
+        changes = master.data.get(("sourcestamps", ss['ssid'], "changes"))
+        log.msg('CHANGES: %s' % changes)
+        changelist += changes
     return changelist
 
 
