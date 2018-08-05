@@ -5,19 +5,19 @@ from twisted.internet import defer
 # noinspection PyPep8Naming
 @defer.inlineCallbacks
 def getChangesForSourceStamps(master, sslist):
-    changes = []
+    changelist = []
     for ss in sslist:
         changesd = master.data.get(("sourcestamps", ss['ssid'], "changes"))
         sourcestampd = master.data.get(("sourcestamps", ss['ssid']))
         changes, sourcestamp = yield defer.gatherResults([changesd, sourcestampd])
-        for c in changesd:
+        for c in changes:
             change = {'author': c['author'],
                       'comments': c['comments'],
                       'revlink': c['revlink'],
                       'revision': c['revision']
                       }
-            changes.append(change)
-    defer.returnValue(changes)
+            changelist.append(change)
+    defer.returnValue(changelist)
 
 
 class AutobuilderMessageFormatter(MessageFormatter):
