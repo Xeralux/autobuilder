@@ -14,7 +14,7 @@ def getChangesForSourceStamps(master, sslist):
             change = {'author': c['author'],
                       'comments': c['comments'],
                       'revlink': c['revlink'],
-                      'revision': c['revision']
+                      'revision': ss['revision']
                       }
             changelist.append(change)
     defer.returnValue(changelist)
