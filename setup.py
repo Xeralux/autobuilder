@@ -17,6 +17,5 @@ setup(
     },
     install_requires=['buildbot>=1.1.0',
                       'boto3', 'botocore',
-                      'twisted',
-                      'singledispatch;python_version<"3.4"']
+                      'twisted']
 )

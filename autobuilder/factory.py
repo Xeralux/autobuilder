@@ -10,10 +10,6 @@ from buildbot.process.factory import BuildFactory
 import buildbot.status.builder as bbres
 from autobuilder import settings
 
-try:
-    from functools import singledispatch
-except ImportError:
-    from singledispatch import singledispatch
 
 ENV_VARS = {'PATH': util.Property('PATH'),
             'BB_ENV_EXTRAWHITE': util.Property('BB_ENV_EXTRAWHITE'),
@@ -88,13 +84,6 @@ def extract_env_vars(rc, stdout, stderr):
 def build_tag(props):
     return '%s-%04d' % (props.getProperty('datestamp'),
                         props.getProperty('buildnumber'))
-
-
-# noinspection PyUnusedLocal
-@util.renderer
-@singledispatch
-def build_datestamp(props):
-    return time.strftime('%Y%m%d')
 
 
 def build_output_path(props):

@@ -320,8 +320,7 @@ class AutobuilderConfig(object):
                                               branch=d.branch, codebase=d.reponame,
                                               category='push')
                 props = {'buildtype': d.push_type,
-                         'datestamp': util.Interpolate('%(kw:now)s',
-                                                       now=factory.build_datestamp)}
+                         'datestamp': str(time.strftime("%Y%m%d"))}
                 s.append(schedulers.SingleBranchScheduler(name=d.name,
                                                           change_filter=md_filter,
                                                           treeStableTimer=d.repotimer,
@@ -335,8 +334,7 @@ class AutobuilderConfig(object):
                                                      choices=[bt.name for bt in d.buildtypes],
                                                      default=d.default_buildtype),
                           util.FixedParameter(name='datestamp',
-                                              default=util.Interpolate('%(kw:now)s',
-                                                                       now=factory.build_datestamp))]
+                                              default=str(time.strftime("%Y%m%d"))]
             s.append(schedulers.ForceScheduler(name=d.name + '-force',
                                                codebases=d.codebaseparamlist(self.repos),
                                                properties=forceprops,
@@ -345,8 +343,7 @@ class AutobuilderConfig(object):
                 slot = settings.get_weekly_slot()
                 s.append(schedulers.Nightly(name=d.name + '-' + 'weekly',
                                             properties={'buildtype': d.weekly_type,
-                                                        'datestamp': util.Interpolate('%(kw:now)s',
-                                                                                      now=factory.build_datestamp)},
+                                                        'datestamp': str(time.strftime("%Y%m%d"))},
                                             codebases=d.codebases(self.repos),
                                             createAbsoluteSourceStamps=True,
                                             builderNames=d.builder_names,
