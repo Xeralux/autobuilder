@@ -25,3 +25,6 @@ class AutobuilderMessageFormatter(MessageFormatter):
         ctx.update(self.ctx)
         if ctx['sourcestamps']:
             ctx['changes'] = getChangesForSourceStamps(master, ctx['buildset']['sourcestamps'])
+        else:
+            ctx['changes'] = []
+
