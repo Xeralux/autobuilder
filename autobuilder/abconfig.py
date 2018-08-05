@@ -371,7 +371,6 @@ class AutobuilderConfig(object):
                      'artifacts': ' '.join(d.artifacts),
                      'autobuilder': self.name,
                      'distro': d.name,
-                     'datestamp': factory.build_datestamp,
                      'buildnum_template': d.buildnum_template,
                      'release_buildname_variable': d.release_buildname_variable}
             repo = self.repos[d.reponame]
