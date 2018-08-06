@@ -1,3 +1,4 @@
+import buildbot.reporters.utils
 from buildbot.reporters.message import MessageFormatter
 from buildbot.reporters.notifier import NotifierBase
 from twisted.internet import defer
