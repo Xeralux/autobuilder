@@ -1,2 +1,3 @@
 {{ build['builder']['name'] }}: {{ summary }}
     Details at: {{ build_url }}
+

@@ -1,3 +1,4 @@
+import os
 import buildbot.reporters.utils as utils
 from buildbot.reporters.message import MessageFormatter
 from buildbot.reporters.notifier import NotifierBase
@@ -24,6 +25,8 @@ class AutobuilderMessageFormatter(MessageFormatter):
                  template_type=None, ctx=None,
                  wantProperties=True, wantSteps=False, wantLogs=False,
                  summary_filename=None, summary=None):
+        if template_dir is None:
+            template_dir = os.path.join(os.path.dirname(__file__), "templates")
         super(AutobuilderMessageFormatter, self).__init__(template_dir, template_filename,
                                                           template, template_name, subject_filename,
                                                           subject, template_type, ctx, wantProperties,
