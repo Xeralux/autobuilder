@@ -58,6 +58,7 @@ def autoBuilderBuildMessage(self, name, builds, results):
     subject = None
     msgtype = None
     users = set()
+    buildmsg = {}
     for build in builds:
         if self.addPatch:
             ss_list = build['buildset']['sourcestamps']
@@ -80,10 +81,10 @@ def autoBuilderBuildMessage(self, name, builds, results):
         users.update(set(blamelist))
         msgtype = buildmsg['type']
         body += buildmsg['body']
-        if 'subject' in buildmsg:
-            subject = buildmsg['subject']
-        if 'summary' in buildmsg:
-            body += buildmsg['summary']
+    if 'subject' in buildmsg:
+        subject = buildmsg['subject']
+    if 'summary' in buildmsg:
+        body += buildmsg['summary']
 
     yield self.sendMessage(body, subject, msgtype, name, results, builds,
                            list(users), patches, logs)
