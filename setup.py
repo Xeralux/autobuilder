@@ -17,7 +17,7 @@ setup(
     },
     include_package_data=True,
     package_data={
-        'autobuilder': ['README.md', 'LICENSE', 'templates/*.txt']
+        'autobuilder': ['templates/*.txt']
     },
     install_requires=['buildbot>=1.1.0',
                       'boto3', 'botocore',
