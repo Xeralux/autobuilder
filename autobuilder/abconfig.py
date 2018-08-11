@@ -2,6 +2,7 @@
 Autobuilder configuration class.
 """
 import os
+import string
 import time
 from random import SystemRandom
 from twisted.python import log
@@ -123,11 +124,6 @@ class AutobuilderWorker(object):
         self.conftext = conftext
 
 
-class AutobuilderController(AutobuilderWorker):
-    def __init__(self, name, password):
-        AutobuilderWorker.__init__(self, name, password)
-
-
 class EC2Params(object):
     def __init__(self, instance_type, ami, secgroup_ids, keypair=None,
                  region=None, subnet=None, elastic_ip=None, tags=None,
@@ -152,6 +148,8 @@ class AutobuilderEC2Worker(AutobuilderWorker):
     master_ip_address = os.getenv('MASTER_IP_ADDRESS')
 
     def __init__(self, name, password, ec2params, conftext=None):
+        if not password:
+            password = ''.join(RNG.choice(string.ascii_letters + string.digits) for _ in range(16))
         AutobuilderWorker.__init__(self, name, password, conftext)
         self.ec2params = ec2params
         self.ec2tags = ec2params.tags
