@@ -6,6 +6,6 @@
   Files changed:
 {% for f in c['files'] %}
         {{ f }}
-{% endfor %}
+{%- endfor %}
 
 {% endfor %}
