@@ -14,7 +14,7 @@ def getChangesForSourceStamps(master, sslist):
         changes = yield master.data.get(("sourcestamps", ss['ssid'], "changes"))
         log.msg('CHANGES: %s' % changes)
         changelist += changes
-    return defer.returnValue(changelist)
+    defer.returnValue(changelist)
 
 
 # noinspection PyPep8Naming
