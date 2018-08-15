@@ -26,10 +26,10 @@ class SlackNotifier(NotifierBase):
                     colors=None, base_url='https://hooks.slack.com/services',
                     watchedWorkers='all', messageFormatterMissingWorker=None):
         super(SlackNotifier, self).checkConfig(mode, tags, builders,
-                                                 buildSetSummary, messageFormatter,
-                                                 subject, False, False,
-                                                 schedulers,
-                                                 branches, watchedWorkers)
+                                               buildSetSummary, messageFormatter,
+                                               subject, False, False,
+                                               schedulers,
+                                               branches, watchedWorkers)
 
         httpclientservice.HTTPClientService.checkAvailable(self.__class__.__name__)
 
@@ -43,10 +43,10 @@ class SlackNotifier(NotifierBase):
                         colors=None, base_url='https://hooks.slack.com/services',
                         watchedWorkers='all', messageFormatterMissingWorker=None):
         super(SlackNotifier, self).reconfigService(mode, tags, builders,
-                                                     buildSetSummary, messageFormatter,
-                                                     subject, False, False,
-                                                     schedulers, branches,
-                                                     watchedWorkers, messageFormatterMissingWorker)
+                                                   buildSetSummary, messageFormatter,
+                                                   subject, False, False,
+                                                   schedulers, branches,
+                                                   watchedWorkers, messageFormatterMissingWorker)
         self.hook = hook
         self.colors = colors if colors is not None else COLORS
         self._http = yield httpclientservice.HTTPClientService.getService(
@@ -56,8 +56,7 @@ class SlackNotifier(NotifierBase):
     def sendMessage(self, body, subject=None, type='plain', builderName=None,
                     results=None, builds=None, users=None, patches=None,
                     logs=None, worker=None):
-
-        msgtext = "{}\n{}" % (subject, body)
+        msgtext = "%s\n%s" % (subject, body)
         msg = {'attachments': [{'color': self.colors.get(results, 'warning'), 'text': msgtext}]}
         response = yield self._http.post(self.hook, json=msg)
         if response.code != 200:
