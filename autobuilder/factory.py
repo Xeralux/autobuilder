@@ -164,7 +164,7 @@ class DistroImage(BuildFactory):
         env_vars = ENV_VARS.copy()
         # First, remove duplicates from PATH,
         # then strip out the virtualenv bin directory if we're in a virtualenv.
-        setup_cmd = 'PATH=`echo -n "$PATH" | awk -v RS=: ORS=: \'!arr[$0]++\'`;' + \
+        setup_cmd = 'PATH=`echo -n "$PATH" | awk -v RS=: -v ORS=: \'!arr[$0]++\'`;' + \
                     'if [ -n "$VIRTUAL_ENV" ]; then ' + \
                     'PATH=`echo "$PATH" | sed -re "s,(^|:)$VIRTUAL_ENV/bin(:|$),\\2,g;s,^:,,"`; ' + \
                     'fi; . %(prop:setup_script)s; printenv'
