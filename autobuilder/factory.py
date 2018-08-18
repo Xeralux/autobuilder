@@ -162,16 +162,16 @@ class DistroImage(BuildFactory):
                                mode=('full' if submodules else 'incremental'),
                                method='clobber'))
         env_vars = ENV_VARS.copy()
-
+        setup_cmd = 'if [ -n "$VIRTUAL_ENV" ]; then ' + \
+                    'PATH=`echo "$PATH" | sed -re "s,(^|:)$VIRTUAL_ENV/bin(:|$),\2,g;s,^:,,"`; ' + \
+                    'fi; . %(prop:setup_script)s; printenv'
         # Setup steps
 
         self.addStep(steps.RemoveDirectory('build/build', name='cleanup',
                                            description=['Removing', 'old', 'build', 'directory'],
                                            descriptionDone=['Removed', 'old', 'build', 'directory']))
         self.addStep(steps.SetPropertyFromCommand(command=['bash', '-c',
-                                                           util.Interpolate(
-                                                               'type -p deactivate && deactivate || true;' +
-                                                               '. %(prop:setup_script)s; printenv')],
+                                                           util.Interpolate(setup_cmd)],
                                                   extract_fn=extract_env_vars,
                                                   name='EnvironmentSetup',
                                                   description=['Running', 'setup', 'script'],
