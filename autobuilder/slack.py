@@ -24,7 +24,7 @@ class SlackNotifier(NotifierBase):
                     subject="Buildbot %(result)s in %(title)s on %(builder)s",
                     schedulers=None, branches=None,
                     colors=None, base_url='https://hooks.slack.com/services',
-                    watchedWorkers='all', messageFormatterMissingWorker=None):
+                    watchedWorkers=None, messageFormatterMissingWorker=None):
         super(SlackNotifier, self).checkConfig(mode, tags, builders,
                                                buildSetSummary, messageFormatter,
                                                subject, False, False,
@@ -41,7 +41,7 @@ class SlackNotifier(NotifierBase):
                         subject="Buildbot %(result)s in %(title)s on %(builder)s",
                         schedulers=None, branches=None,
                         colors=None, base_url='https://hooks.slack.com/services',
-                        watchedWorkers='all', messageFormatterMissingWorker=None):
+                        watchedWorkers=None, messageFormatterMissingWorker=None):
         super(SlackNotifier, self).reconfigService(mode, tags, builders,
                                                    buildSetSummary, messageFormatter,
                                                    subject, False, False,
