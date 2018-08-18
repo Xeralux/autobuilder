@@ -231,7 +231,7 @@ class AutobuilderForceScheduler(schedulers.ForceScheduler):
     # noinspection PyUnusedLocal,PyPep8Naming,PyPep8Naming
     @defer.inlineCallbacks
     def computeBuilderNames(self, builderNames=None, builderid=None):
-        defer.returnValue(self.builderNames)
+        yield defer.returnValue(self.builderNames)
 
 
 class AutobuilderConfig(object):
