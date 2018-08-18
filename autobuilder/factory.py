@@ -163,7 +163,7 @@ class DistroImage(BuildFactory):
                                method='clobber'))
         env_vars = ENV_VARS.copy()
         setup_cmd = 'if [ -n "$VIRTUAL_ENV" ]; then ' + \
-                    'PATH=`echo "$PATH" | sed -re "s,(^|:)$VIRTUAL_ENV/bin(:|$),\2,g;s,^:,,"`; ' + \
+                    'PATH=`echo "$PATH" | sed -re "s,(^|:)$VIRTUAL_ENV/bin(:|$),\\2,g;s,^:,,"`; ' + \
                     'fi; . %(prop:setup_script)s; printenv'
         # Setup steps
 
