@@ -169,8 +169,9 @@ class DistroImage(BuildFactory):
                                            description=['Removing', 'old', 'build', 'directory'],
                                            descriptionDone=['Removed', 'old', 'build', 'directory']))
         self.addStep(steps.SetPropertyFromCommand(command=['bash', '-c',
-                                                           'type -p deactivate && deactivate || true; ' +
-                                                           util.Interpolate('. %(prop:setup_script)s; printenv')],
+                                                           util.Interpolate(
+                                                               'type -p deactivate && deactivate || true;' +
+                                                               '. %(prop:setup_script)s; printenv')],
                                                   extract_fn=extract_env_vars,
                                                   name='EnvironmentSetup',
                                                   description=['Running', 'setup', 'script'],
