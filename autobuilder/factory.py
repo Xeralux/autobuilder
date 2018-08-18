@@ -162,7 +162,10 @@ class DistroImage(BuildFactory):
                                mode=('full' if submodules else 'incremental'),
                                method='clobber'))
         env_vars = ENV_VARS.copy()
-        setup_cmd = 'if [ -n "$VIRTUAL_ENV" ]; then ' + \
+        # First, remove duplicates from PATH,
+        # then strip out the virtualenv bin directory if we're in a virtualenv.
+        setup_cmd = 'PATH=`echo -n "$PATH" | awk -v RS=: ORS=: \'!arr[$0]++\'`;' + \
+                    'if [ -n "$VIRTUAL_ENV" ]; then ' + \
                     'PATH=`echo "$PATH" | sed -re "s,(^|:)$VIRTUAL_ENV/bin(:|$),\\2,g;s,^:,,"`; ' + \
                     'fi; . %(prop:setup_script)s; printenv'
         # Setup steps
