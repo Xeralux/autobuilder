@@ -15,9 +15,9 @@ COLORS = {
 }
 
 
-# noinspection PyShadowingBuiltins,PyPep8Naming,PyAttributeOutsideInit,PyMethodOverriding,PyAttributeOutsideInit,PyAttributeOutsideInit,PyAttributeOutsideInit,PyMethodOverriding,PyMethodOverriding,PyPep8Naming,PyPep8Naming,PyPep8Naming,PyPep8Naming,PyPep8Naming,PyPep8Naming,PyPep8Naming,PyPep8Naming,PyPep8Naming
 class SlackNotifier(NotifierBase):
 
+    # noinspection PyMethodOverriding
     def checkConfig(self, hook,
                     mode=("failing", "passing", "warnings"),
                     tags=None, builders=None,
@@ -34,6 +34,7 @@ class SlackNotifier(NotifierBase):
 
         httpclientservice.HTTPClientService.checkAvailable(self.__class__.__name__)
 
+    # noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,PyAttributeOutsideInit,PyMethodOverriding
     @defer.inlineCallbacks
     def reconfigService(self, hook,
                         mode=("failing", "passing", "warnings"),
